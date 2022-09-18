@@ -16,9 +16,9 @@
 */
 
 #include "thingProperties.h"
-#include<DHT.h>
-#include<DHT_U.h>
-#define DHTPIN 7
+#include<DHT.h>  //DHT libraby for working with dht 11 module
+#include<DHT_U.h>  //DHT libraby for working with dht 11 module
+#define DHTPIN 7  //DHT 11 DATA PIN IS CONNECTED TO DIGITAL PIN 7
 #define DHTTYPE DHT11
 DHT dht(DHTPIN,DHTTYPE);
 //float temperature_sense;
@@ -27,10 +27,9 @@ void setup() {
   Serial.begin(9600);
   // This delay gives the chance to wait for a Serial Monitor without blocking if none is found
   delay(1000); 
-  pinMode(LED_BUILTIN, OUTPUT);
-  dht.begin();
-  Serial.println("DHT11 Humidity & temperature Sensor\n\n");
-  delay(1000);//Wait before accessing Sensor
+  pinMode(LED_BUILTIN, OUTPUT); //LED IS INITIALISED AS OUTPUT
+  dht.begin(); //begin method will activate sensor  
+  delay(1000);//1second time delay before activating Sensor
   
   //Defined in thingProperties.h
   initProperties();
@@ -53,20 +52,20 @@ void loop()
 {
   ArduinoCloud.update();
   // Your code here 
-  temperature_sense = dht.readTemperature();
-  
-  if( temperature_sense > 30.5)
+  temperature_sense = dht.readTemperature();  //variable will store the value read by sensor 
+  //readTemperature is an inbuilt method 
+  if( temperature_sense > 30.5) //if condition for blinking led , if the value of temperature exceeds 30.5C , LED will turn on
   {
-    led_state = true;
-    digitalWrite(LED_BUILTIN, led_state);
+    led_state = true; //bool value set to true
+    digitalWrite(LED_BUILTIN, led_state); //led will glow
   }
 
   else
   {
     led_state = false;
-    digitalWrite(LED_BUILTIN,led_state);
+    digitalWrite(LED_BUILTIN,led_state); //led will be turned off
   }
-  delay(1000);
+  delay(1000); //dht will read value after every 1 second 
 }
 
 /*
